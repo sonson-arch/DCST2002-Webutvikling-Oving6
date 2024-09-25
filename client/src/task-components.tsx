@@ -54,11 +54,12 @@ export class TaskDetails extends Component<{ match: { params: { id: number } } }
           </Row>
           <Row>
             <Column width={2}>Description:</Column>
+            <Column>{this.task.description}</Column>
           </Row>
           <Row>
             <Column width={2}>Done:</Column>
             <Column>
-              <Form.Checkbox checked={this.task.done} onChange={() => {}} disabled />
+              <Form.Checkbox checked={this.task.done} onChange={() => {}} />
             </Column>
           </Row>
         </Card>
@@ -106,7 +107,11 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
               <Form.Label>Description:</Form.Label>
             </Column>
             <Column>
-              <Form.Textarea value="" onChange={() => {}} rows={10} disabled />
+              <Form.Textarea 
+              value={this.task.description || ''} 
+              onChange={(event) => {this.task.description = event.currentTarget.value}} 
+              rows={10}
+              />
             </Column>
           </Row>
           <Row>
@@ -121,21 +126,36 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
         </Card>
         <Row>
           <Column>
-            <Button.Success onClick={() => Alert.info('Not yet implemented')}>Save</Button.Success>
-          </Column>
+            <Button.Success onClick={this.save}>Save</Button.Success></Column>
           <Column right>
-            <Button.Danger onClick={() => Alert.info('Not yet implemented')}>Delete</Button.Danger>
+            <Button.Danger onClick={this.delete}>Delete</Button.Danger>
           </Column>
         </Row>
       </>
     );
   }
 
-  mounted() {
+  mounted(): void {
     taskService
       .get(this.props.match.params.id)
       .then((task) => (this.task = task))
       .catch((error) => Alert.danger('Error getting task: ' + error.message));
+  }
+
+  save(): void {
+    taskService
+      .update(this.task.id, this.task.title, this.task.description, this.task.done)
+      .then(() => history.push('/tasks/' + this.task.id))
+      .catch((error) => Alert.danger('Error updating task: ' + error.message));
+  }
+
+  delete(): void {
+    if (confirm('Do you really want to delete this task?')) {
+      taskService
+        .delete(this.task.id)
+        .then(() => history.push('/tasks'))
+        .catch((error) => Alert.danger('Error deleting task: ' + error.message));
+    }
   }
 }
 
@@ -169,7 +189,7 @@ export class TaskNew extends Component {
             </Column>
             <Column>
               <Form.Textarea 
-              value={this.description} 
+              value={this.description || ''} 
               onChange={(event) => {this.description = event.currentTarget.value}} 
               rows={10}
               />

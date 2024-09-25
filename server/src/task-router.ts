@@ -25,9 +25,10 @@ router.get('/tasks/:id', (request, response) => {
 // Example response body: { id: 4 }
 router.post('/tasks', (request, response) => {
   const data = request.body;
-  if (data && data.title && data.title.length != 0)
+  if (data && data.title && data.title.length != 0 
+    && data.description && data.description.length != 0)
     taskService
-      .create(data.title)
+      .create(data.title, data.description)
       .then((id) => response.send({ id: id }))
       .catch((error) => response.status(500).send(error));
   else response.status(400).send('Missing task title');
@@ -40,4 +41,22 @@ router.delete('/tasks/:id', (request, response) => {
     .catch((error) => response.status(500).send(error));
 });
 
+router.put('/tasks/:id', (request, response) => {
+  const data = request.body;
+  if (data && data.title && data.title.length !== 0 && data.description && data.description.length !== 0) {
+    const task = {
+      id: Number(request.params.id),
+      title: data.title,
+      description: data.description,
+      done: data.done
+    };
+
+    taskService
+      .update(task)
+      .then((updatedTask) => response.send(updatedTask))
+      .catch((error) => response.status(500).send(error));
+  } else {
+    response.status(400).send('Missing task title or description');
+  }
+});
 export default router;

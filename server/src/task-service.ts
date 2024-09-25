@@ -4,8 +4,8 @@ import type { RowDataPacket, ResultSetHeader } from 'mysql2';
 export type Task = {
   id: number;
   title: string;
-  done: boolean;
   description: string;
+  done: boolean;
 };
 
 class TaskService {
@@ -64,7 +64,21 @@ class TaskService {
       });
     });
   }
+
+  update(task: Task) {
+    return new Promise<Task>((resolve, reject) => {
+      pool.query('UPDATE Tasks SET title=?, description=?, done=? WHERE id=?', 
+        [task.title, task.description, task.done, task.id], 
+        (error, results: RowDataPacket[]) => {
+        if (error) return reject(error);
+
+        resolve(results[0] as Task);
+      });
+    })
+  }
 }
+
+
 
 const taskService = new TaskService();
 export default taskService;

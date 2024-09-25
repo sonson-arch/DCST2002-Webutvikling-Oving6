@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Alert } from '../src/widgets';
 import { shallow } from 'enzyme';
 
+//npm test -- -i alert-widget.test.tsx
+
 describe('Alert tests', () => {
   test('No alerts initially', () => {
     const wrapper = shallow(<Alert />);
