@@ -21,6 +21,7 @@ class Home extends Component {
   }
 }
 
+
 let root = document.getElementById('root');
 if (root)
   createRoot(root).render(

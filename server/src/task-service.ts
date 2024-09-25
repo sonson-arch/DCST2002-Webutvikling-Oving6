@@ -5,6 +5,7 @@ export type Task = {
   id: number;
   title: string;
   done: boolean;
+  description: string;
 };
 
 class TaskService {
@@ -39,15 +40,16 @@ class TaskService {
    *
    * Resolves the newly created task id.
    */
-  create(title: string) {
+  create(title: string, description: string) {
     return new Promise<number>((resolve, reject) => {
-      pool.query('INSERT INTO Tasks SET title=?', [title], (error, results: ResultSetHeader) => {
+      pool.query('INSERT INTO Tasks SET title=?, description=?', [title, description], (error, results: ResultSetHeader) => {
         if (error) return reject(error);
 
         resolve(results.insertId);
       });
     });
   }
+
 
   /**
    * Delete task with given id.

@@ -42,7 +42,7 @@ export class TaskList extends Component {
  * Renders a specific task.
  */
 export class TaskDetails extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false };
+  task: Task = { id: 0, title: '', done: false, description: '' };
 
   render() {
     return (
@@ -83,7 +83,7 @@ export class TaskDetails extends Component<{ match: { params: { id: number } } }
  * Renders form to edit a specific task.
  */
 export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
-  task: Task = { id: 0, title: '', done: false };
+  task: Task = { id: 0, title: '', done: false, description: '' };
 
   render() {
     return (
@@ -143,7 +143,9 @@ export class TaskEdit extends Component<{ match: { params: { id: number } } }> {
  * Renders form to create new task.
  */
 export class TaskNew extends Component {
+
   title = '';
+  description = '';
 
   render() {
     return (
@@ -166,14 +168,18 @@ export class TaskNew extends Component {
               <Form.Label>Description:</Form.Label>
             </Column>
             <Column>
-              <Form.Textarea value="" onChange={() => {}} rows={10} disabled />
+              <Form.Textarea 
+              value={this.description} 
+              onChange={(event) => {this.description = event.currentTarget.value}} 
+              rows={10}
+              />
             </Column>
           </Row>
         </Card>
         <Button.Success
           onClick={() => {
             taskService
-              .create(this.title)
+              .create(this.title, this.description)
               .then((id) => history.push('/tasks/' + id))
               .catch((error) => Alert.danger('Error creating task: ' + error.message));
           }}
