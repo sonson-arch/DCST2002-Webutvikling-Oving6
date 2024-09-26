@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { TaskList, TaskNew, TaskDetails } from '../src/task-components';
 import { shallow } from 'enzyme';
-import { Form, Button, Column, Row, Card } from '../src/widgets';
+import { Form, Button, Column, Row, Card, Alert } from '../src/widgets';
 import { NavLink } from 'react-router-dom';
+import taskService from '../src/task-service';
 
 //npm test -- -i task-components.test.tsx
 
@@ -30,9 +31,17 @@ jest.mock('../src/task-service', () => {
       });
     }
 
-
     create() {
       return Promise.resolve(4); // Same as: return new Promise((resolve) => resolve(4));
+      
+    }
+
+    update() {
+      return Promise.resolve();
+    }
+
+    delete() {
+      return Promise.resolve();
     }
   }
 
@@ -40,6 +49,7 @@ jest.mock('../src/task-service', () => {
 });
 
 describe('Task component tests', () => {
+  
   test('TaskList draws correctly', (done) => {
     const wrapper = shallow(<TaskList />);
 
@@ -54,6 +64,14 @@ describe('Task component tests', () => {
       ).toEqual(true);
       done();
     });
+  });
+
+  test('TaskList click on New task', (done) => {
+    const wrapper = shallow(<TaskList />);
+
+    wrapper.find(Button.Success).simulate('click');
+    expect(location.hash).toEqual('#/tasks/new');
+    done();
   });
 
   test('TaskNew correctly sets location on create', (done) => {
@@ -100,11 +118,49 @@ describe('TaskDetails tests', () => {
             </Row>
           </Card>,
           <Button.Success>Edit</Button.Success>,
-        ])
+        ]),
       ).toEqual(true);
+      done();
+    }, 0);
+  });
+
+  test('TaskDetails Edit button click', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      wrapper.find(Button.Success).simulate('click');
+      expect(location.hash).toEqual('#/tasks/1/edit');
+      done();
+    }, 0);
+  });
+
+  test('TaskDetails mounted', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      expect(wrapper.state('task')).toEqual({
+        id: 1,
+        title: 'Les leksjon',
+        description: 'Notater fra leksjon den 25.09.24',
+        done: false,
+      });
       done();
     }, 0);
   });
 });
 
+describe('TaskDetails renders correctly with use of snapshot', () => {
+  test('Renders correctly', () => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
 
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      expect(wrapper).toMatchSnapshot();
+    }, 0);
+  })
+})
