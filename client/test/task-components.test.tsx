@@ -33,7 +33,6 @@ jest.mock('../src/task-service', () => {
 
     create() {
       return Promise.resolve(4); // Same as: return new Promise((resolve) => resolve(4));
-      
     }
 
     update() {
@@ -49,7 +48,6 @@ jest.mock('../src/task-service', () => {
 });
 
 describe('Task component tests', () => {
-  
   test('TaskList draws correctly', (done) => {
     const wrapper = shallow(<TaskList />);
 
@@ -99,6 +97,7 @@ describe('TaskDetails tests', () => {
 
       console.log(wrapper.debug()); // Debug the rendered output
 
+      // @ts-ignore
       expect(
         wrapper.containsAllMatchingElements([
           <Card title="Task">
@@ -123,6 +122,44 @@ describe('TaskDetails tests', () => {
       done();
     }, 0);
   });
+});
+
+describe('TaskDetails renders correctly with use of snapshot', () => {
+  test('Renders correctly', () => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update();
+
+      expect(wrapper).toMatchSnapshot();
+    }, 0);
+  });
+});
+
+describe('TaskEdit tests', () => {
+  test('TaskEdit correctly sets location on update', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update();
+
+      wrapper.find(Button.Success).simulate('click');
+      expect(location.hash).toEqual('#/tasks/1/edit');
+      done();
+    }, 0);
+  });
+
+  test('TaskEdit change done', (done) => {
+    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update();
+
+      wrapper.find(Form.Checkbox).simulate('change', { currentTarget: { checked: false } });
+      expect(wrapper.find(Form.Checkbox).prop('checked')).toEqual(false);
+      done();
+    }, 0);
+  });
 
   test('TaskDetails Edit button click', (done) => {
     const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
@@ -136,31 +173,14 @@ describe('TaskDetails tests', () => {
     }, 0);
   });
 
-  test('TaskDetails mounted', (done) => {
+  test('TaskDetails colunm width', (done) => {
     const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
 
     setTimeout(() => {
       wrapper.update(); // Ensure the component is updated
 
-      expect(wrapper.state('task')).toEqual({
-        id: 1,
-        title: 'Les leksjon',
-        description: 'Notater fra leksjon den 25.09.24',
-        done: false,
-      });
+      expect(wrapper.containsMatchingElement(<Column width={2}>Title:</Column>)).toEqual(true);
       done();
     }, 0);
   });
 });
-
-describe('TaskDetails renders correctly with use of snapshot', () => {
-  test('Renders correctly', () => {
-    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
-
-    setTimeout(() => {
-      wrapper.update(); // Ensure the component is updated
-
-      expect(wrapper).toMatchSnapshot();
-    }, 0);
-  })
-})

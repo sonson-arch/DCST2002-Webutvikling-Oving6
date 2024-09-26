@@ -19,14 +19,13 @@ describe('Alert tests', () => {
     Alert.danger('test2');
     Alert.danger('test3');
 
-    // Force re-render
+   
     wrapper.update();
 
     // Wait for events to complete
     setTimeout(() => {
-      wrapper.update(); // Ensure the component is updated
+      wrapper.update(); 
 
-      console.log(wrapper.debug()); // Debug the rendered output
 
       expect(
         wrapper.matchesElement(
@@ -56,14 +55,12 @@ describe('Alert tests', () => {
 
     Alert.danger('test2');
 
-    // Force re-render
+    
     wrapper.update();
 
     // Wait for events to complete
     setTimeout(() => {
-      wrapper.update(); // Ensure the component is updated
-
-      console.log(wrapper.debug()); // Debug the rendered output
+      wrapper.update();
 
       expect(
         wrapper.matchesElement(

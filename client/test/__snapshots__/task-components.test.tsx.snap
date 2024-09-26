@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskDetails Edit button click 1`] = `
+<Fragment>
+  <Card
+    title="Task"
+  >
+    <Row>
+      <Column
+        width={2}
+      >
+        Title:
+      </Column>
+      <Column>
+        Les leksjon
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Description:
+      </Column>
+      <Column>
+        Notater fra leksjon den 25.09.24
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Done:
+      </Column>
+      <Column>
+        <FormCheckbox
+          checked={false}
+          onChange={[Function]}
+        />
+      </Column>
+    </Row>
+  </Card>
+  <ButtonSuccess
+    onClick={[Function]}
+  >
+    Edit
+  </ButtonSuccess>
+</Fragment>
+`;
+
+exports[`TaskDetails tests TaskDetails Edit button click 1`] = `
+<Fragment>
+  <Card
+    title="Task"
+  >
+    <Row>
+      <Column
+        width={2}
+      >
+        Title:
+      </Column>
+      <Column>
+        Les leksjon
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Description:
+      </Column>
+      <Column>
+        Notater fra leksjon den 25.09.24
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Done:
+      </Column>
+      <Column>
+        <FormCheckbox
+          checked={false}
+          onChange={[Function]}
+        />
+      </Column>
+    </Row>
+  </Card>
+  <ButtonSuccess
+    onClick={[Function]}
+  >
+    Edit
+  </ButtonSuccess>
+</Fragment>
+`;
+
+exports[`TaskEdit tests TaskEdit correctly sets location on update 1`] = `
+<Fragment>
+  <Card
+    title="Task"
+  >
+    <Row>
+      <Column
+        width={2}
+      >
+        Title:
+      </Column>
+      <Column>
+        Les leksjon
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Description:
+      </Column>
+      <Column>
+        Notater fra leksjon den 25.09.24
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Done:
+      </Column>
+      <Column>
+        <FormCheckbox
+          checked={false}
+          onChange={[Function]}
+        />
+      </Column>
+    </Row>
+  </Card>
+  <ButtonSuccess
+    onClick={[Function]}
+  >
+    Edit
+  </ButtonSuccess>
+</Fragment>
+`;
