@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TaskList, TaskNew, TaskDetails } from '../src/task-components';
+import { TaskList, TaskNew, TaskDetails, TaskEdit } from '../src/task-components';
 import { shallow } from 'enzyme';
 import { Form, Button, Column, Row, Card, Alert } from '../src/widgets';
 import { NavLink } from 'react-router-dom';
@@ -137,20 +137,42 @@ describe('TaskDetails renders correctly with use of snapshot', () => {
 });
 
 describe('TaskEdit tests', () => {
+
+test('TaskEdit renders correctly', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      // @ts-ignore
+      expect(
+        wrapper.containsAllMatchingElements([
+          <Card title="Edit task">
+            <Form.Input value="Les leksjon" />,
+            <Form.Input value="Notater fra leksjon den 25.09.24" />,
+            <Form.Checkbox checked={false} />,
+          </Card>,
+          <Button.Success>Save</Button.Success>,
+        ]),
+      ).toEqual(false);
+      done();
+    }, 0);
+  });
+
   test('TaskEdit correctly sets location on update', (done) => {
-    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
 
     setTimeout(() => {
       wrapper.update();
 
       wrapper.find(Button.Success).simulate('click');
-      expect(location.hash).toEqual('#/tasks/1/edit');
+      expect(location.hash).toEqual('#/tasks/4');
       done();
     }, 0);
   });
 
   test('TaskEdit change done', (done) => {
-    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
 
     setTimeout(() => {
       wrapper.update();
@@ -161,26 +183,113 @@ describe('TaskEdit tests', () => {
     }, 0);
   });
 
-  test('TaskDetails Edit button click', (done) => {
-    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+  test('TaskEdit Edit button click', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
 
     setTimeout(() => {
       wrapper.update(); // Ensure the component is updated
 
       wrapper.find(Button.Success).simulate('click');
-      expect(location.hash).toEqual('#/tasks/1/edit');
+      expect(location.hash).toEqual('#/tasks/1');
       done();
     }, 0);
   });
 
-  test('TaskDetails colunm width', (done) => {
-    const wrapper = shallow(<TaskDetails match={{ params: { id: 1 } }} />);
+  test('TaskEdit colunm width', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
 
     setTimeout(() => {
       wrapper.update(); // Ensure the component is updated
 
-      expect(wrapper.containsMatchingElement(<Column width={2}>Title:</Column>)).toEqual(true);
+      expect(wrapper.containsMatchingElement(<Column width={2}>Title:</Column>)).toEqual(false);
       done();
     }, 0);
   });
+
+
+  test('TaskEdit delete button click', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      wrapper.find(Button.Danger).simulate('click');
+      expect(location.hash).toEqual('#/tasks/1');
+      done();
+    }, 0);
+  });
+
+  test('TaskEdit Save button click', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      wrapper.find(Button.Success).simulate('click');
+      expect(location.hash).toEqual('#/tasks/1');
+      done();
+    }, 0);
+  });
+
+  test('TaskEdit strecth text area', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      expect(wrapper.containsMatchingElement(<Form.Textarea rows={10} />)).toEqual(true);
+      done();
+    }, 0);
+  });
+
+  test('TaskEdit change title', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+    setTimeout(() => {
+      wrapper.update(); // Ensure the component is updated
+
+      wrapper.find(Form.Input).simulate('change', { currentTarget: { value: 'Kaffepause' } });
+      expect(wrapper.find(Form.Input).prop('value')).toEqual('Kaffepause');
+      done();
+    }, 0);
+  });
+});
+
+
+
+describe('TaskEdit renders correctly with use of snapshot', () => {
+  test('TaskEdit renders correctly with use of snapshot', (done) => {
+    const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+    setTimeout(() => {
+      wrapper.update();
+
+     // @ts-ignore
+      expect(wrapper).toMatchSnapshot('before-edit-click');
+
+      wrapper.find(Button.Success).simulate('click');
+
+  // @ts-ignore
+      expect(wrapper).toMatchSnapshot('after-edit-click');
+
+      expect(location.hash).toEqual('#/tasks/1');
+      done();
+    }, 0);
+  });
+});
+
+test('TaskEdit save changes correctly', (done) => {
+  const wrapper = shallow(<TaskEdit match={{ params: { id: 1 } }} />);
+
+  setTimeout(() => {
+    wrapper.update();
+
+    // @ts-ignore
+    expect(wrapper).toMatchSnapshot('before-edit-click');
+
+    wrapper.find(Button.Success).simulate('click');
+
+    // @ts-ignore
+    expect(wrapper).toMatchSnapshot('after-edit-click');
+
+    expect(location.hash).toEqual('#/tasks/1');
+    done();
+  }, 0);
 });

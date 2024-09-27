@@ -1,28 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TaskDetails Edit button click 1`] = `
+exports[`TaskEdit renders correctly with use of snapshot TaskEdit renders correctly with use of snapshot: after-edit-click 1`] = `
 <Fragment>
   <Card
-    title="Task"
+    title="Edit task"
   >
     <Row>
       <Column
         width={2}
       >
-        Title:
+        <FormLabel>
+          Title:
+        </FormLabel>
       </Column>
       <Column>
-        Les leksjon
+        <FormInput
+          onChange={[Function]}
+          type="text"
+          value="Les leksjon"
+        />
       </Column>
     </Row>
     <Row>
       <Column
         width={2}
       >
-        Description:
+        <FormLabel>
+          Description:
+        </FormLabel>
       </Column>
       <Column>
-        Notater fra leksjon den 25.09.24
+        <FormTextarea
+          onChange={[Function]}
+          rows={10}
+          value="Notater fra leksjon den 25.09.24"
+        />
       </Column>
     </Row>
     <Row>
@@ -39,37 +51,62 @@ exports[`TaskDetails Edit button click 1`] = `
       </Column>
     </Row>
   </Card>
-  <ButtonSuccess
-    onClick={[Function]}
-  >
-    Edit
-  </ButtonSuccess>
+  <Row>
+    <Column>
+      <ButtonSuccess
+        onClick={[Function]}
+      >
+        Save
+      </ButtonSuccess>
+    </Column>
+    <Column
+      right={true}
+    >
+      <ButtonDanger
+        onClick={[Function]}
+      >
+        Delete
+      </ButtonDanger>
+    </Column>
+  </Row>
 </Fragment>
 `;
 
-exports[`TaskDetails tests TaskDetails Edit button click 1`] = `
+exports[`TaskEdit renders correctly with use of snapshot TaskEdit renders correctly with use of snapshot: before-edit-click 1`] = `
 <Fragment>
   <Card
-    title="Task"
+    title="Edit task"
   >
     <Row>
       <Column
         width={2}
       >
-        Title:
+        <FormLabel>
+          Title:
+        </FormLabel>
       </Column>
       <Column>
-        Les leksjon
+        <FormInput
+          onChange={[Function]}
+          type="text"
+          value="Les leksjon"
+        />
       </Column>
     </Row>
     <Row>
       <Column
         width={2}
       >
-        Description:
+        <FormLabel>
+          Description:
+        </FormLabel>
       </Column>
       <Column>
-        Notater fra leksjon den 25.09.24
+        <FormTextarea
+          onChange={[Function]}
+          rows={10}
+          value="Notater fra leksjon den 25.09.24"
+        />
       </Column>
     </Row>
     <Row>
@@ -86,15 +123,172 @@ exports[`TaskDetails tests TaskDetails Edit button click 1`] = `
       </Column>
     </Row>
   </Card>
-  <ButtonSuccess
-    onClick={[Function]}
-  >
-    Edit
-  </ButtonSuccess>
+  <Row>
+    <Column>
+      <ButtonSuccess
+        onClick={[Function]}
+      >
+        Save
+      </ButtonSuccess>
+    </Column>
+    <Column
+      right={true}
+    >
+      <ButtonDanger
+        onClick={[Function]}
+      >
+        Delete
+      </ButtonDanger>
+    </Column>
+  </Row>
 </Fragment>
 `;
 
-exports[`TaskEdit tests TaskEdit correctly sets location on update 1`] = `
+exports[`TaskEdit save changes correctly: after-edit-click 1`] = `
+<Fragment>
+  <Card
+    title="Edit task"
+  >
+    <Row>
+      <Column
+        width={2}
+      >
+        <FormLabel>
+          Title:
+        </FormLabel>
+      </Column>
+      <Column>
+        <FormInput
+          onChange={[Function]}
+          type="text"
+          value="Les leksjon"
+        />
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        <FormLabel>
+          Description:
+        </FormLabel>
+      </Column>
+      <Column>
+        <FormTextarea
+          onChange={[Function]}
+          rows={10}
+          value="Notater fra leksjon den 25.09.24"
+        />
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Done:
+      </Column>
+      <Column>
+        <FormCheckbox
+          checked={false}
+          onChange={[Function]}
+        />
+      </Column>
+    </Row>
+  </Card>
+  <Row>
+    <Column>
+      <ButtonSuccess
+        onClick={[Function]}
+      >
+        Save
+      </ButtonSuccess>
+    </Column>
+    <Column
+      right={true}
+    >
+      <ButtonDanger
+        onClick={[Function]}
+      >
+        Delete
+      </ButtonDanger>
+    </Column>
+  </Row>
+</Fragment>
+`;
+
+exports[`TaskEdit save changes correctly: before-edit-click 1`] = `
+<Fragment>
+  <Card
+    title="Edit task"
+  >
+    <Row>
+      <Column
+        width={2}
+      >
+        <FormLabel>
+          Title:
+        </FormLabel>
+      </Column>
+      <Column>
+        <FormInput
+          onChange={[Function]}
+          type="text"
+          value="Les leksjon"
+        />
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        <FormLabel>
+          Description:
+        </FormLabel>
+      </Column>
+      <Column>
+        <FormTextarea
+          onChange={[Function]}
+          rows={10}
+          value="Notater fra leksjon den 25.09.24"
+        />
+      </Column>
+    </Row>
+    <Row>
+      <Column
+        width={2}
+      >
+        Done:
+      </Column>
+      <Column>
+        <FormCheckbox
+          checked={false}
+          onChange={[Function]}
+        />
+      </Column>
+    </Row>
+  </Card>
+  <Row>
+    <Column>
+      <ButtonSuccess
+        onClick={[Function]}
+      >
+        Save
+      </ButtonSuccess>
+    </Column>
+    <Column
+      right={true}
+    >
+      <ButtonDanger
+        onClick={[Function]}
+      >
+        Delete
+      </ButtonDanger>
+    </Column>
+  </Row>
+</Fragment>
+`;
+
+exports[`TaskEdit tests TaskEdit renders correctly 1`] = `
 <Fragment>
   <Card
     title="Task"
