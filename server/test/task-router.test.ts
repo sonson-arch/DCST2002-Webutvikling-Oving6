@@ -17,7 +17,7 @@ let webServer: any;
 beforeAll((done) => {
   // Use separate port for testing
   webServer = app.listen(3001, () => done());
-}, 10000); // Increase timeout to 10 seconds
+}); // Increase timeout to 10 seconds
 
 beforeEach((done) => {
   // Delete all tasks, and reset id auto-increment start value
@@ -26,12 +26,12 @@ beforeEach((done) => {
 
     // Create testTasks sequentially in order to set correct id, and call done() when finished
     taskService
-      .create(testTasks[0].title, testTasks[0].description) 
+      .create(testTasks[0].title, testTasks[0].description)
       .then(() => taskService.create(testTasks[1].title, testTasks[1].description)) // Create testTask[1] after testTask[0] has been created
       .then(() => taskService.create(testTasks[2].title, testTasks[2].description)) // Create testTask[2] after testTask[1] has been created
       .then(() => done()); // Call done() after testTask[2] has been created
   });
-}, 10000);
+});
 
 // Stop web server and close connection to MySQL server
 afterAll((done) => {
@@ -39,13 +39,7 @@ afterAll((done) => {
   webServer.close(() => pool.end(() => done()));
 });
 
-
-
-
-
-
 //-----------------------------task-router.test.ts--------------------------------
-
 
 describe('Fetch tasks (GET)', () => {
   test('Fetch all tasks (200 OK)', (done) => {
@@ -77,7 +71,7 @@ describe('Fetch tasks (GET)', () => {
 
 describe('Create new task (POST)', () => {
   test('Create new task (200 OK)', (done) => {
-    axios.post('/tasks', { title: 'Ny oppgave' , description: 'Test'}).then((response) => {
+    axios.post('/tasks', { title: 'Ny oppgave', description: 'Test' }).then((response) => {
       expect(response.status).toEqual(200);
       expect(response.data).toEqual({ id: 4 });
       done();
@@ -85,32 +79,36 @@ describe('Create new task (POST)', () => {
   });
 });
 
-
 describe('Update task (PUT)', () => {
-  test('Update task (200 OK)', (done) => {
-    axios.put('/tasks/2', { done: true }).then((response) => {
-      expect(response.status).toEqual(200);
-      done();
-    })
-    });
+  test('Update task (200 OK)', async () => {
+    let response;
+    try {
+      response = await axios.put('/tasks/2', { done: true });
+    } catch (error: any) {
+      response = error.response;
+    }
+
+    expect(response.status).toEqual(200);
+    console.log(response.data);
+  });
 });
- 
+
 describe('Delete task (DELETE)', () => {
   test('Delete task (200 OK)', (done) => {
     axios.delete('/tasks/2').then((response) => {
       expect(response.status).toEqual(200);
       expect(response.data).toEqual({ id: 2 });
       done();
-    })
-  }); 
-}); 
+    });
+  });
+});
 
 describe('Delete task (DELETE)', () => {
   test('Delete task (404 Not Found)', (done) => {
     axios.delete('/tasks/4').then((response) => {
       expect(response.status).toEqual(404);
       done();
-    })
+    });
   });
 });
 
@@ -119,13 +117,11 @@ describe('Update task (PUT)', () => {
     axios.put('/tasks/4', { done: true }).then((response) => {
       expect(response.status).toEqual(404);
       done();
-    })
+    });
   });
 });
 
-
 //-----------------------------task-service.test.ts--------------------------------
-
 
 describe('TaskService tests', () => {
   test('Get task', (done) => {
@@ -167,4 +163,3 @@ describe('TaskService tests', () => {
     });
   });
 });
-
