@@ -5,21 +5,19 @@ variables:
   MYSQL_PASSWORD: test
   MYSQL_DATABASE: test
 
-
-  test:
+test:
   stage: test
+  image: ubuntu:latest
   script:
     - apt-get update
     - apt-get -y upgrade
     - apt-get -y install default-mysql-server
-    - service mariadb start
+    - service mysql start
     # Create database
     - mysqladmin create $MYSQL_DATABASE
     # Create database table
     - >
-      echo "CREATE TABLE Tasks (id INT NOT NULL AUTO_INCREMENT, title TEXT NOT NULL, done BOOL
-      DEFAULT false, PRIMARY KEY(id));" | mysql $MYSQL_DATABASE
+      echo "CREATE TABLE Tasks (id INT NOT NULL AUTO_INCREMENT, title TEXT NOT NULL, done BOOL DEFAULT false, PRIMARY KEY(id));" | mysql $MYSQL_DATABASE
     # Add test user and grant access
     - >
-      echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; GRANT ALL PRIVILEGES ON
-      $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;" | mysql
+      echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%'; FLUSH PRIVILEGES;" | mysql
